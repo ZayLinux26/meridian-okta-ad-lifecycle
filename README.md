@@ -68,7 +68,7 @@ Every claim links to evidence from the live lab.
 | The import the scheduler runs left a terminated user Active | [0 deactivations](screenshots/39-import-monitoring-incremental-zero-deactivations.png) |
 | She was deactivated only when someone looked her up | [Real-Time Sync event](screenshots/38-system-log-realtimesync-deactivation.png) |
 | A terminated user stayed signed in to Okta after AD and Entra containment | [JML plan has no Okta step](screenshots/49-jml-day9-aisha-leaver-plan.png), [still signed in](screenshots/51-aisha-after-ad-disable-before-okta-containment.png) |
-| The containment step cut her off, acting as a named service app | [Containment run](screenshots/52-okta-containment-aisha-real-run.png), [cut off](screenshots/53-aisha-after-containment.png), [actor in the log](screenshots/55-system-log-actor-service-app.png) |
+| The containment step cut her off, acting as a named service app | [Containment run](screenshots/52-okta-containment-aisha-real-run.png), [cut off](screenshots/53-aisha-cut-off-after-containment.png), [actor in the log](screenshots/55-system-log-actor-service-app.png) |
 | Every containment run is audited, failures included, and re-running is safe | [Audit trail](screenshots/56-okta-containment-audit-trail.png) |
 | The automation can touch only workforce users, and only three ways | [Custom role](screenshots/45-okta-custom-role-permissions.png), [scope by UPN](screenshots/43-okta-group-rule-upn-suffix.png), [assignment](screenshots/46-okta-service-app-admin-role.png) |
 | With the agent down, new sign-ins fail and recent ones keep working | [Kevin fails](screenshots/57-kevin-signin-fails-agent-down.png), [existing session works](screenshots/57a-agent-down-existing-session-still-works.png), [agent back](screenshots/58-kevin-signin-works-agent-up.png) |
@@ -171,7 +171,7 @@ The same check turned up something nobody added on purpose: **MFG-MGMT01's compu
 | --- | --- | --- |
 | [![Users](screenshots/11-okta-user-ou-scope-pilot.png)](screenshots/11-okta-user-ou-scope-pilot.png) | [![Groups](screenshots/12-okta-group-ou-scope.png)](screenshots/12-okta-group-ou-scope.png) | [![UPN](screenshots/13-upn-vs-mail-check.png)](screenshots/13-upn-vs-mail-check.png) |
 | **Attributes** | **Defaults before** | **Matching after** |
-| [![Attributes](screenshots/14-okta-profile-attributes-selected.png)](screenshots/14-okta-profile-attributes-selected.png) | [![Defaults](screenshots/17-okta-import-defaults-before.png)](screenshots/17-okta-import-defaults-before.png) | [![Matching](screenshots/18-okta-import-matching-rules.png)](screenshots/18-okta-import-matching-rules.png) |
+| [![Attributes](screenshots/14-okta-profile-attributes-selected.png)](screenshots/14-okta-profile-attributes-selected.png) | [![Defaults](screenshots/17-okta-import-matching-rules.png)](screenshots/17-okta-import-matching-rules.png) | [![Matching](screenshots/18-okta-import-matching-rules.png)](screenshots/18-okta-import-matching-rules.png) |
 
 Okta's defaults after the wizard were a blank "Custom" username format and **Email matches** as the match rule. Both would have broken this import: one gives users no usable login, the other matches on an attribute that is empty for everyone.
 
@@ -307,7 +307,7 @@ After the plan was applied, Aisha's Okta tab refreshed **still signed in** ([51]
 
 | Containment run | Her tab after refresh | Actor in the System Log |
 | --- | --- | --- |
-| [![Run](screenshots/52-okta-containment-aisha-real-run.png)](screenshots/52-okta-containment-aisha-real-run.png) | [![Cut off](screenshots/53-aisha-after-containment.png)](screenshots/53-aisha-after-containment.png) | [![Actor](screenshots/55-system-log-actor-service-app.png)](screenshots/55-system-log-actor-service-app.png) |
+| [![Run](screenshots/52-okta-containment-aisha-real-run.png)](screenshots/52-okta-containment-aisha-real-run.png) | [![Cut off](screenshots/53-aisha-cut-off-after-containment.png)](screenshots/53-aisha-cut-off-after-containment.png) | [![Actor](screenshots/55-system-log-actor-service-app.png)](screenshots/55-system-log-actor-service-app.png) |
 
 The deactivation event in the System Log names the actor as **MFG-JML-Leaver-Containment**, a `PublicClientAppEntity`, with a `PowerShell/7.6.6` user agent from MFG-MGMT01's address. Not an admin, not "Okta System." An examiner can tie the termination to a named automation identity, a time, an HR record and a JML run ID.
 
