@@ -1,0 +1,28 @@
+# Secrets: Okta service app private key, certificates, API tokens
+*.pem
+*.key
+*.pfx
+*.p12
+*.cer
+.env
+*.secret
+okta-*.json
+
+# Run output (journals, logs, reports contain user data)
+output/
+*.log
+*.jsonl
+
+# Local config with tenant URLs and IDs (commit the .example version only)
+config/*.psd1
+!config/*.example.psd1
+
+# Python
+venv/
+.venv/
+__pycache__/
+
+# OS and editor
+.DS_Store
+Thumbs.db
+.vscode/
