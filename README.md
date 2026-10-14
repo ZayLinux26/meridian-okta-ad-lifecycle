@@ -61,17 +61,17 @@ Every claim links to evidence from the live lab.
 
 | Claim | Evidence |
 | --- | --- |
-| Only the five HR-anchored pilot users reach Okta. Admins, service accounts and Tier 0 groups stay out | [OU scope](docs/screenshots/11-okta-user-ou-scope-pilot.png), [group scope](docs/screenshots/12-okta-group-ou-scope.png), [import review](docs/screenshots/20-okta-import-review-unconfirmed.png) |
-| The agent runs as a dedicated account with no group memberships and no delegated rights | [Account hardened](docs/screenshots/10-service-account-hardened.png) |
-| Passwords never leave AD: Okta asks AD at sign-in through the agent | [Setting](docs/screenshots/22-okta-delegated-auth-setting.png), [Elena signed in](docs/screenshots/23-elena-okta-dashboard-delegated-auth.png), [log event](docs/screenshots/24-system-log-delegated-auth-event.png) |
-| An HR record becomes an Okta account with no admin in between | [JML joiner](docs/screenshots/28-jml-day7-joiner-applied.png), [not in Okta](docs/screenshots/29-okta-people-before-jit-no-daniel.png), [first sign-in](docs/screenshots/30-daniel-first-signin-jit.png), [created by JIT](docs/screenshots/31-okta-people-daniel-created-by-jit.png) |
-| The import the scheduler runs left a terminated user Active | [0 deactivations](docs/screenshots/39-import-monitoring-incremental-zero-deactivations.png) |
-| She was deactivated only when someone looked her up | [Real-Time Sync event](docs/screenshots/38-system-log-realtimesync-deactivation.png) |
-| A terminated user stayed signed in to Okta after AD and Entra containment | [JML plan has no Okta step](docs/screenshots/49-jml-day9-aisha-leaver-plan.png), [still signed in](docs/screenshots/51-aisha-after-ad-disable-before-okta-containment.png) |
-| The containment step cut her off, acting as a named service app | [Containment run](docs/screenshots/52-okta-containment-aisha-real-run.png), [cut off](docs/screenshots/53-aisha-after-containment.png), [actor in the log](docs/screenshots/55-system-log-actor-service-app.png) |
-| Every containment run is audited, failures included, and re-running is safe | [Audit trail](docs/screenshots/56-okta-containment-audit-trail.png) |
-| The automation can touch only workforce users, and only three ways | [Custom role](docs/screenshots/45-okta-custom-role-permissions.png), [scope by UPN](docs/screenshots/43-okta-group-rule-upn-suffix.png), [assignment](docs/screenshots/46-okta-service-app-admin-role.png) |
-| With the agent down, new sign-ins fail and recent ones keep working | [Kevin fails](docs/screenshots/57-kevin-signin-fails-agent-down.png), [existing session works](docs/screenshots/57a-agent-down-existing-session-still-works.png), [agent back](docs/screenshots/58-kevin-signin-works-agent-up.png) |
+| Only the five HR-anchored pilot users reach Okta. Admins, service accounts and Tier 0 groups stay out | [OU scope](screenshots/11-okta-user-ou-scope-pilot.png), [group scope](screenshots/12-okta-group-ou-scope.png), [import review](screenshots/20-okta-import-review-unconfirmed.png) |
+| The agent runs as a dedicated account with no group memberships and no delegated rights | [Account hardened](screenshots/10-service-account-hardened.png) |
+| Passwords never leave AD: Okta asks AD at sign-in through the agent | [Setting](screenshots/22-okta-delegated-auth-setting.png), [Elena signed in](screenshots/23-elena-okta-dashboard-delegated-auth.png), [log event](screenshots/24-system-log-delegated-auth-event.png) |
+| An HR record becomes an Okta account with no admin in between | [JML joiner](screenshots/28-jml-day7-joiner-applied.png), [not in Okta](screenshots/29-okta-people-before-jit-no-daniel.png), [first sign-in](screenshots/30-daniel-first-signin-jit.png), [created by JIT](screenshots/31-okta-people-daniel-created-by-jit.png) |
+| The import the scheduler runs left a terminated user Active | [0 deactivations](screenshots/39-import-monitoring-incremental-zero-deactivations.png) |
+| She was deactivated only when someone looked her up | [Real-Time Sync event](screenshots/38-system-log-realtimesync-deactivation.png) |
+| A terminated user stayed signed in to Okta after AD and Entra containment | [JML plan has no Okta step](screenshots/49-jml-day9-aisha-leaver-plan.png), [still signed in](screenshots/51-aisha-after-ad-disable-before-okta-containment.png) |
+| The containment step cut her off, acting as a named service app | [Containment run](screenshots/52-okta-containment-aisha-real-run.png), [cut off](screenshots/53-aisha-after-containment.png), [actor in the log](screenshots/55-system-log-actor-service-app.png) |
+| Every containment run is audited, failures included, and re-running is safe | [Audit trail](screenshots/56-okta-containment-audit-trail.png) |
+| The automation can touch only workforce users, and only three ways | [Custom role](screenshots/45-okta-custom-role-permissions.png), [scope by UPN](screenshots/43-okta-group-rule-upn-suffix.png), [assignment](screenshots/46-okta-service-app-admin-role.png) |
+| With the agent down, new sign-ins fail and recent ones keep working | [Kevin fails](screenshots/57-kevin-signin-fails-agent-down.png), [existing session works](screenshots/57a-agent-down-existing-session-still-works.png), [agent back](screenshots/58-kevin-signin-works-agent-up.png) |
 
 ---
 
@@ -115,19 +115,19 @@ Three products, one failure pattern. When the leaver process moves an account or
 
 ## Design decisions
 
-**1. A pilot wave, not the whole domain.** Okta was scoped to Finance, Compliance and HR (five people). That is how real Okta rollouts start, and the trial's ten-user cap made it a requirement anyway. The pilot was chosen from a fresh inventory of HR-anchored users, not from documentation ([01](docs/screenshots/01-ad-preflight-inventory.png)).
+**1. A pilot wave, not the whole domain.** Okta was scoped to Finance, Compliance and HR (five people). That is how real Okta rollouts start, and the trial's ten-user cap made it a requirement anyway. The pilot was chosen from a fresh inventory of HR-anchored users, not from documentation ([01](screenshots/01-ad-preflight-inventory.png)).
 
 **2. Only HR-anchored people reach the IdP.** Every OU outside the three department OUs stayed unchecked: domain controllers, `Service Identities`, `Service Accounts`, the built-in `Users` container (Administrator, krbtgt), computers. An IdP that imports a service account gives that account a password-based sign-in to whatever apps get assigned to "Everyone."
 
 **3. Groups from `OU=Groups` only.** That OU holds the `GG-MFG-*` role groups and `DL-MFG-App-*` app groups from Parts 1 and 2. Tier 0 groups such as Domain Admins live in the built-in containers and never reach Okta, so nobody can accidentally assign an app to them or build a policy on them in the cloud.
 
-**4. UPN as the Okta username, and the match rule.** `mail` was blank for every user ([13](docs/screenshots/13-upn-vs-mail-check.png)), so the default "Email matches" rule would have matched nothing. The Okta username is the UPN, which Part 1 already set to the routable `@isaiahherard26gmail.onmicrosoft.com` suffix, and matching is on the username. One sign-in name across Windows, Entra and Okta, and audit logs from all three join on the same value.
+**4. UPN as the Okta username, and the match rule.** `mail` was blank for every user ([13](screenshots/13-upn-vs-mail-check.png)), so the default "Email matches" rule would have matched nothing. The Okta username is the UPN, which Part 1 already set to the routable `@isaiahherard26gmail.onmicrosoft.com` suffix, and matching is on the username. One sign-in name across Windows, Entra and Okta, and audit logs from all three join on the same value.
 
 **5. Profile attributes chosen, not bulk-imported.** Only `employeeID`, `department`, `title`, `manager`, `employeeType` and the office came across. Every extra attribute is personal data living in a second system.
 
 **6. One-way provisioning.** AD sources Okta users and their profiles are read-only in Okta. The To App direction (Okta writing to AD) stays off. Two systems able to change the same identity means the audit question "who changed this account?" stops having one answer.
 
-**7. Manual review on the first import.** Auto-confirm and auto-activate were left off so a human checked the five proposed users against the expected population before anyone became active ([20](docs/screenshots/20-okta-import-review-unconfirmed.png)). A scoping mistake gets caught on a review screen instead of after activation emails go out.
+**7. Manual review on the first import.** Auto-confirm and auto-activate were left off so a human checked the five proposed users against the expected population before anyone became active ([20](screenshots/20-okta-import-review-unconfirmed.png)). A scoping mistake gets caught on a review screen instead of after activation emails go out.
 
 **8. The automation identity can't touch the admins.** The containment service app holds a custom role with three user permissions, scoped to a group whose membership comes from the UPN suffix. Details in [Phase 5](#phase-5-the-fix-the-leaver-tells-okta-directly).
 
@@ -143,7 +143,7 @@ This is the reference section: what each step did, why, and what it looked like.
 
 | AD inventory | Agent account test |
 | --- | --- |
-| [![Inventory](docs/screenshots/01-ad-preflight-inventory.png)](docs/screenshots/01-ad-preflight-inventory.png) | [![gMSA](docs/screenshots/02-gmsa-okta-created-test-true.png)](docs/screenshots/02-gmsa-okta-created-test-true.png) |
+| [![Inventory](screenshots/01-ad-preflight-inventory.png)](screenshots/01-ad-preflight-inventory.png) | [![gMSA](screenshots/02-gmsa-okta-created-test-true.png)](screenshots/02-gmsa-okta-created-test-true.png) |
 
 **The plan was a gMSA.** A group Managed Service Account has a 120-character password that AD rotates every 30 days and no human ever knows. Okta's docs support it for the agent. The gMSA was created in `OU=Service Identities` (outside the Cloud Sync scope), with only MFG-MGMT01 allowed to retrieve its password. How that went is in [What broke](#what-broke).
 
@@ -159,9 +159,9 @@ The agent lives on MFG-MGMT01, not the domain controller. The DC is Tier 0 and r
 
 | Agent running | Account hardened | Agent live in Okta |
 | --- | --- | --- |
-| [![Running](docs/screenshots/09-okta-agent-restored-bootstrap-account.png)](docs/screenshots/09-okta-agent-restored-bootstrap-account.png) | [![Hardened](docs/screenshots/10-service-account-hardened.png)](docs/screenshots/10-service-account-hardened.png) | [![Agents](docs/screenshots/16-okta-agents-tab.png)](docs/screenshots/16-okta-agents-tab.png) |
+| [![Running](screenshots/09-okta-agent-restored-bootstrap-account.png)](screenshots/09-okta-agent-restored-bootstrap-account.png) | [![Hardened](screenshots/10-service-account-hardened.png)](screenshots/10-service-account-hardened.png) | [![Agents](screenshots/16-okta-agents-tab.png)](screenshots/16-okta-agents-tab.png) |
 
-**Pre-Windows 2000 warning.** The installer warned that the service account is not a member of *Pre-Windows 2000 Compatible Access* and incremental imports might fail. I didn't add it. `Authenticated Users` is already a member of that group, so every domain account inherits its read access, and the installer only checks direct membership ([05](docs/screenshots/05-pre-win2000-false-positive.png)). Incremental imports later ran without errors. Granting a legacy domain-wide read group because an installer warned about it is how service accounts end up over-privileged.
+**Pre-Windows 2000 warning.** The installer warned that the service account is not a member of *Pre-Windows 2000 Compatible Access* and incremental imports might fail. I didn't add it. `Authenticated Users` is already a member of that group, so every domain account inherits its read access, and the installer only checks direct membership ([05](screenshots/05-pre-win2000-false-positive.png)). Incremental imports later ran without errors. Granting a legacy domain-wide read group because an installer warned about it is how service accounts end up over-privileged.
 
 The same check turned up something nobody added on purpose: **MFG-MGMT01's computer account is a direct member** of that group. It is logged as an open drift item.
 
@@ -169,9 +169,9 @@ The same check turned up something nobody added on purpose: **MFG-MGMT01's compu
 
 | User OU scope | Group OU scope | Username decision |
 | --- | --- | --- |
-| [![Users](docs/screenshots/11-okta-user-ou-scope-pilot.png)](docs/screenshots/11-okta-user-ou-scope-pilot.png) | [![Groups](docs/screenshots/12-okta-group-ou-scope.png)](docs/screenshots/12-okta-group-ou-scope.png) | [![UPN](docs/screenshots/13-upn-vs-mail-check.png)](docs/screenshots/13-upn-vs-mail-check.png) |
+| [![Users](screenshots/11-okta-user-ou-scope-pilot.png)](screenshots/11-okta-user-ou-scope-pilot.png) | [![Groups](screenshots/12-okta-group-ou-scope.png)](screenshots/12-okta-group-ou-scope.png) | [![UPN](screenshots/13-upn-vs-mail-check.png)](screenshots/13-upn-vs-mail-check.png) |
 | **Attributes** | **Defaults before** | **Matching after** |
-| [![Attributes](docs/screenshots/14-okta-profile-attributes-selected.png)](docs/screenshots/14-okta-profile-attributes-selected.png) | [![Defaults](docs/screenshots/17-okta-import-defaults-before.png)](docs/screenshots/17-okta-import-defaults-before.png) | [![Matching](docs/screenshots/18-okta-import-matching-rules.png)](docs/screenshots/18-okta-import-matching-rules.png) |
+| [![Attributes](screenshots/14-okta-profile-attributes-selected.png)](screenshots/14-okta-profile-attributes-selected.png) | [![Defaults](screenshots/17-okta-import-defaults-before.png)](screenshots/17-okta-import-defaults-before.png) | [![Matching](screenshots/18-okta-import-matching-rules.png)](screenshots/18-okta-import-matching-rules.png) |
 
 Okta's defaults after the wizard were a blank "Custom" username format and **Email matches** as the match rule. Both would have broken this import: one gives users no usable login, the other matches on an attribute that is empty for everyone.
 
@@ -179,7 +179,7 @@ Okta's defaults after the wizard were a blank "Custom" username format and **Ema
 
 | Import summary | Review before confirming | Pilot active |
 | --- | --- | --- |
-| [![Summary](docs/screenshots/19-okta-first-full-import-summary.png)](docs/screenshots/19-okta-first-full-import-summary.png) | [![Review](docs/screenshots/20-okta-import-review-unconfirmed.png)](docs/screenshots/20-okta-import-review-unconfirmed.png) | [![People](docs/screenshots/21-okta-people-pilot-active.png)](docs/screenshots/21-okta-people-pilot-active.png) |
+| [![Summary](screenshots/19-okta-first-full-import-summary.png)](screenshots/19-okta-first-full-import-summary.png) | [![Review](screenshots/20-okta-import-review-unconfirmed.png)](screenshots/20-okta-import-review-unconfirmed.png) | [![People](screenshots/21-okta-people-pilot-active.png)](screenshots/21-okta-people-pilot-active.png) |
 
 ### Phase 3: delegated authentication and JIT
 
@@ -187,7 +187,7 @@ Okta's defaults after the wizard were a blank "Custom" username format and **Ema
 
 | Setting | Elena signed in | Log |
 | --- | --- | --- |
-| [![Setting](docs/screenshots/22-okta-delegated-auth-setting.png)](docs/screenshots/22-okta-delegated-auth-setting.png) | [![Elena](docs/screenshots/23-elena-okta-dashboard-delegated-auth.png)](docs/screenshots/23-elena-okta-dashboard-delegated-auth.png) | [![Log](docs/screenshots/24-system-log-delegated-auth-event.png)](docs/screenshots/24-system-log-delegated-auth-event.png) |
+| [![Setting](screenshots/22-okta-delegated-auth-setting.png)](screenshots/22-okta-delegated-auth-setting.png) | [![Elena](screenshots/23-elena-okta-dashboard-delegated-auth.png)](screenshots/23-elena-okta-dashboard-delegated-auth.png) | [![Log](screenshots/24-system-log-delegated-auth-event.png)](screenshots/24-system-log-delegated-auth-event.png) |
 
 **JIT provisioning** closes the gap between an AD account existing and the next import. The test ran the whole chain:
 
@@ -200,9 +200,9 @@ Nobody opened the Okta console.
 
 | Joiner plan | Applied | Not in Okta |
 | --- | --- | --- |
-| [![Plan](docs/screenshots/27-jml-day7-joiner-plan.png)](docs/screenshots/27-jml-day7-joiner-plan.png) | [![Applied](docs/screenshots/28-jml-day7-joiner-applied.png)](docs/screenshots/28-jml-day7-joiner-applied.png) | [![Before](docs/screenshots/29-okta-people-before-jit-no-daniel.png)](docs/screenshots/29-okta-people-before-jit-no-daniel.png) |
+| [![Plan](screenshots/27-jml-day7-joiner-plan.png)](screenshots/27-jml-day7-joiner-plan.png) | [![Applied](screenshots/28-jml-day7-joiner-applied.png)](screenshots/28-jml-day7-joiner-applied.png) | [![Before](screenshots/29-okta-people-before-jit-no-daniel.png)](screenshots/29-okta-people-before-jit-no-daniel.png) |
 | **First sign-in** | **Created by JIT** | **Log** |
-| [![Signin](docs/screenshots/30-daniel-first-signin-jit.png)](docs/screenshots/30-daniel-first-signin-jit.png) | [![Created](docs/screenshots/31-okta-people-daniel-created-by-jit.png)](docs/screenshots/31-okta-people-daniel-created-by-jit.png) | [![Log](docs/screenshots/32-system-log-jit-create-event.png)](docs/screenshots/32-system-log-jit-create-event.png) |
+| [![Signin](screenshots/30-daniel-first-signin-jit.png)](screenshots/30-daniel-first-signin-jit.png) | [![Created](screenshots/31-okta-people-daniel-created-by-jit.png)](screenshots/31-okta-people-daniel-created-by-jit.png) | [![Log](screenshots/32-system-log-jit-create-event.png)](screenshots/32-system-log-jit-create-event.png) |
 
 Getting there took two tries, and the first try is a good example of the engine doing its job: see [What broke](#what-broke) #6.
 
@@ -233,7 +233,7 @@ Containment first, cleanup second, the same order the JML engine uses for AD and
 
 | Public key only | Scopes | Custom role | Assignment |
 | --- | --- | --- | --- |
-| [![Key](docs/screenshots/41-okta-service-app-public-key-only.png)](docs/screenshots/41-okta-service-app-public-key-only.png) | [![Scopes](docs/screenshots/42-okta-service-app-scopes.png)](docs/screenshots/42-okta-service-app-scopes.png) | [![Role](docs/screenshots/45-okta-custom-role-permissions.png)](docs/screenshots/45-okta-custom-role-permissions.png) | [![Assign](docs/screenshots/46-okta-service-app-admin-role.png)](docs/screenshots/46-okta-service-app-admin-role.png) |
+| [![Key](screenshots/41-okta-service-app-public-key-only.png)](screenshots/41-okta-service-app-public-key-only.png) | [![Scopes](screenshots/42-okta-service-app-scopes.png)](screenshots/42-okta-service-app-scopes.png) | [![Role](screenshots/45-okta-custom-role-permissions.png)](screenshots/45-okta-custom-role-permissions.png) | [![Assign](screenshots/46-okta-service-app-admin-role.png)](screenshots/46-okta-service-app-admin-role.png) |
 
 **The scoping trap.** The obvious way to limit the role is "only users in our AD groups." It would have failed on exactly the people it exists for. The JML leaver strips every AD group from a leaver before anything else, so by the time containment runs, the leaver is in none of those groups and a group-scoped role refuses to act on them.
 
@@ -247,7 +247,7 @@ Every AD-sourced workforce user matches, leavers included. The super admin (`adm
 
 | Group rule | Members: five workforce users, no admin |
 | --- | --- |
-| [![Rule](docs/screenshots/43-okta-group-rule-upn-suffix.png)](docs/screenshots/43-okta-group-rule-upn-suffix.png) | [![Members](docs/screenshots/44-okta-workforce-group-members.png)](docs/screenshots/44-okta-workforce-group-members.png) |
+| [![Rule](screenshots/43-okta-group-rule-upn-suffix.png)](screenshots/43-okta-group-rule-upn-suffix.png) | [![Members](screenshots/44-okta-workforce-group-members.png)](screenshots/44-okta-workforce-group-members.png) |
 
 The automation's own app was deliberately left **out** of the resource set. With the current permissions it would do nothing, but if someone later added app permissions to this role, the automation could edit its own app and keys. An identity that can change its own credentials is the classic escalation path.
 
@@ -269,9 +269,9 @@ Rachel Stein, AML Analyst in Compliance, was terminated through the HR file. The
 
 | Before: Active | Leaver applied | Incremental import |
 | --- | --- | --- |
-| [![Before](docs/screenshots/33-okta-rachel-active-before-leaver.png)](docs/screenshots/33-okta-rachel-active-before-leaver.png) | [![Leaver](docs/screenshots/35-jml-day8-rachel-leaver-applied.png)](docs/screenshots/35-jml-day8-rachel-leaver-applied.png) | [![Import](docs/screenshots/36-okta-incremental-import-after-leaver.png)](docs/screenshots/36-okta-incremental-import-after-leaver.png) |
+| [![Before](screenshots/33-okta-rachel-active-before-leaver.png)](screenshots/33-okta-rachel-active-before-leaver.png) | [![Leaver](screenshots/35-jml-day8-rachel-leaver-applied.png)](screenshots/35-jml-day8-rachel-leaver-applied.png) | [![Import](screenshots/36-okta-incremental-import-after-leaver.png)](screenshots/36-okta-incremental-import-after-leaver.png) |
 
-The import completed successfully and **deactivated nobody** ([39](docs/screenshots/39-import-monitoring-incremental-zero-deactivations.png)). Rachel showed **Active**. Okta documents this behavior: scheduled AD imports are incremental, they only query the selected OUs for objects changed since the last run, and a user moved to an unselected OU is never seen. Only a full import deactivates users who left scope.
+The import completed successfully and **deactivated nobody** ([39](screenshots/39-import-monitoring-incremental-zero-deactivations.png)). Rachel showed **Active**. Okta documents this behavior: scheduled AD imports are incremental, they only query the selected OUs for objects changed since the last run, and a user moved to an unselected OU is never seen. Only a full import deactivates users who left scope.
 
 A minute later she showed **Deactivated**. I assumed the import had caught up. The System Log said otherwise:
 
@@ -283,21 +283,21 @@ A minute later she showed **Deactivated**. I assumed the import had caught up. T
 
 **The import never caught her. Real-Time Sync did.** When an AD-sourced user is looked up (an admin opening them in the console, or the user trying to sign in), Okta asks AD through the agent for their current state. The agent couldn't find her in the scoped OUs, so Okta deactivated her. The lookup came from my admin session.
 
-[![Real-Time Sync event](docs/screenshots/38-system-log-realtimesync-deactivation.png)](docs/screenshots/38-system-log-realtimesync-deactivation.png)
+[![Real-Time Sync event](screenshots/38-system-log-realtimesync-deactivation.png)](screenshots/38-system-log-realtimesync-deactivation.png)
 
 **Why this is worse than a plain gap:** the act of investigating fixes the evidence. An auditor sampling terminated users in the Okta console sees "Deactivated" and closes the test. With nobody looking and no sign-in attempt, she stays Active, and so does every app account Okta provisions for her.
 
-**The cheap fix didn't take.** The obvious remedy is to add `OU=Disabled Users` to the import scope so leavers stay visible. After setup, the Integration settings page only offered OUs on the path to the originally selected ones. `Disabled Users` was not selectable, even after a page reload and an agent restart, although AD showed the OU exists and `Authenticated Users` can read it ([40](docs/screenshots/40-okta-ou-tree-disabled-users-not-offered.png)).
+**The cheap fix didn't take.** The obvious remedy is to add `OU=Disabled Users` to the import scope so leavers stay visible. After setup, the Integration settings page only offered OUs on the path to the originally selected ones. `Disabled Users` was not selectable, even after a page reload and an agent restart, although AD showed the OU exists and `Authenticated Users` can read it ([40](screenshots/40-okta-ou-tree-disabled-users-not-offered.png)).
 
 ### Test 2: does the termination end a live Okta session?
 
 Aisha Grant in HR signed in to Okta and left the tab open. HR terminated her. The JML plan shows the problem before anything runs:
 
-[![JML plan for Aisha](docs/screenshots/49-jml-day9-aisha-leaver-plan.png)](docs/screenshots/49-jml-day9-aisha-leaver-plan.png)
+[![JML plan for Aisha](screenshots/49-jml-day9-aisha-leaver-plan.png)](screenshots/49-jml-day9-aisha-leaver-plan.png)
 
 Ten actions: disable in AD and revoke Entra sessions (marked `*` as containment), then groups, OU move and the terminated stamp. **Nothing touches Okta**, because Okta isn't in the engine's world.
 
-After the plan was applied, Aisha's Okta tab refreshed **still signed in** ([51](docs/screenshots/51-aisha-after-ad-disable-before-okta-containment.png)). AD disabled, Entra revoked, engine reported success, and her Okta dashboard and every app tile on it still worked.
+After the plan was applied, Aisha's Okta tab refreshed **still signed in** ([51](screenshots/51-aisha-after-ad-disable-before-okta-containment.png)). AD disabled, Entra revoked, engine reported success, and her Okta dashboard and every app tile on it still worked.
 
 ### The fix, and the retest
 
@@ -307,7 +307,7 @@ After the plan was applied, Aisha's Okta tab refreshed **still signed in** ([51]
 
 | Containment run | Her tab after refresh | Actor in the System Log |
 | --- | --- | --- |
-| [![Run](docs/screenshots/52-okta-containment-aisha-real-run.png)](docs/screenshots/52-okta-containment-aisha-real-run.png) | [![Cut off](docs/screenshots/53-aisha-after-containment.png)](docs/screenshots/53-aisha-after-containment.png) | [![Actor](docs/screenshots/55-system-log-actor-service-app.png)](docs/screenshots/55-system-log-actor-service-app.png) |
+| [![Run](screenshots/52-okta-containment-aisha-real-run.png)](screenshots/52-okta-containment-aisha-real-run.png) | [![Cut off](screenshots/53-aisha-after-containment.png)](screenshots/53-aisha-after-containment.png) | [![Actor](screenshots/55-system-log-actor-service-app.png)](screenshots/55-system-log-actor-service-app.png) |
 
 The deactivation event in the System Log names the actor as **MFG-JML-Leaver-Containment**, a `PublicClientAppEntity`, with a `PowerShell/7.6.6` user agent from MFG-MGMT01's address. Not an admin, not "Okta System." An examiner can tie the termination to a named automation identity, a time, an HR record and a JML run ID.
 
@@ -321,7 +321,7 @@ The audit file tells the whole story, failures included:
 | 20:22:44 | agrant | ACTIVE | **True** | **True** | **Contained** |
 | 20:25:13 | agrant | DEPROVISIONED | True | False | Contained (re-run, nothing left to deactivate) |
 
-[![Audit trail](docs/screenshots/56-okta-containment-audit-trail.png)](docs/screenshots/56-okta-containment-audit-trail.png)
+[![Audit trail](screenshots/56-okta-containment-audit-trail.png)](screenshots/56-okta-containment-audit-trail.png)
 
 The live run took **1.3 seconds**. The second run shows the step is safe to repeat: it found her already deactivated, cleared sessions again and skipped the rest. That is the same idempotency rule as the JML engine, and it means an operator retrying at 2 AM can't make things worse.
 
@@ -341,9 +341,9 @@ Okta's setup screen recommends at least two agents. With delegated authenticatio
 
 | Kevin: new sign-in, agent down | Elena: existing session, agent down | Kevin: agent back |
 | --- | --- | --- |
-| [![Fails](docs/screenshots/57-kevin-signin-fails-agent-down.png)](docs/screenshots/57-kevin-signin-fails-agent-down.png) | [![Works](docs/screenshots/57a-agent-down-existing-session-still-works.png)](docs/screenshots/57a-agent-down-existing-session-still-works.png) | [![Back](docs/screenshots/58-kevin-signin-works-agent-up.png)](docs/screenshots/58-kevin-signin-works-agent-up.png) |
+| [![Fails](screenshots/57-kevin-signin-fails-agent-down.png)](screenshots/57-kevin-signin-fails-agent-down.png) | [![Works](screenshots/57a-agent-down-existing-session-still-works.png)](screenshots/57a-agent-down-existing-session-still-works.png) | [![Back](screenshots/58-kevin-signin-works-agent-up.png)](screenshots/58-kevin-signin-works-agent-up.png) |
 
-- **Kevin Walsh**, who had never signed in to Okta, **failed** to sign in while the agent was down ([System Log](docs/screenshots/57b-system-log-kevin-delauth-failure.png)) and succeeded once it came back.
+- **Kevin Walsh**, who had never signed in to Okta, **failed** to sign in while the agent was down ([System Log](screenshots/57b-system-log-kevin-delauth-failure.png)) and succeeded once it came back.
 - **Elena** stayed signed in, which was expected: an outage doesn't end existing sessions.
 - Then Elena **signed out and signed back in with her password** in a private window, with the agent confirmed stopped, and **got in**.
 
@@ -368,7 +368,7 @@ Okta also published a 2024 advisory affecting this cache path, where under certa
 Okta Active Directory Service | ...\OktaAgentService.exe | MERIDIAN\gmsa-okta$ | 1057
 ```
 
-Error 1057 is `ERROR_INVALID_SERVICE_ACCOUNT`. The gMSA itself was fine (`Test-ADServiceAccount` returned True). The most likely cause is how the installer passes the empty password to Windows; I can't prove that from outside the installer. Most of the installer log's "error" lines were dialog conditions evaluating to false (`...|0`); the real failure was a single line. ([04](docs/screenshots/04-okta-agent-install-failed-gmsa.png))
+Error 1057 is `ERROR_INVALID_SERVICE_ACCOUNT`. The gMSA itself was fine (`Test-ADServiceAccount` returned True). The most likely cause is how the installer passes the empty password to Windows; I can't prove that from outside the installer. Most of the installer log's "error" lines were dialog conditions evaluating to false (`...|0`); the real failure was a single line. ([04](screenshots/04-okta-agent-install-failed-gmsa.png))
 
 **2. The agent can't be moved to a gMSA after install either.** I installed with a temporary account, then switched the service to the gMSA in the Services console. Windows logged on as the gMSA fine, then the agent stopped:
 
@@ -377,19 +377,19 @@ Could not load encrypted configuration settings ... Probably, the configuration 
 encrypted by another user. ---> CryptographicException: Key not valid for use in specified state.
 ```
 
-The installer encrypts the agent's config with DPAPI under the install account, so only that account can read it. Okta's support article confirms the service account name can't be changed in place; it takes a reinstall. With the installer refusing the gMSA and the config refusing a switch, I went back to the temporary account and hardened it. The account kept its `svc-okta-bootstrap` name, since renaming it means another reinstall. ([07](docs/screenshots/07-service-logon-changed-to-gmsa.png), [08](docs/screenshots/08-agent-started-then-stopped-as-gmsa.png))
+The installer encrypts the agent's config with DPAPI under the install account, so only that account can read it. Okta's support article confirms the service account name can't be changed in place; it takes a reinstall. With the installer refusing the gMSA and the config refusing a switch, I went back to the temporary account and hardened it. The account kept its `svc-okta-bootstrap` name, since renaming it means another reinstall. ([07](screenshots/07-service-logon-changed-to-gmsa.png), [08](screenshots/08-agent-started-then-stopped-as-gmsa.png))
 
 **3. A failed install still leaves state behind.** The first install wrote `OktaAgentService.exe.instances.config` before rolling back. I removed the folder (keeping the logs) before reinstalling so the new install didn't reuse a dead registration.
 
-**4. Admin sign-in failed from the server, and the log said why in one look.** The System Log showed the actor as `admin@isaiahhherard.com` (three h's) and the target user as `(id: unknown)`: Edge had saved a typo. The password was never checked, so there was no lockout risk. ([03](docs/screenshots/03-okta-system-log-signin-failure.png))
+**4. Admin sign-in failed from the server, and the log said why in one look.** The System Log showed the actor as `admin@isaiahhherard.com` (three h's) and the target user as `(id: unknown)`: Edge had saved a typo. The password was never checked, so there was no lockout risk. ([03](screenshots/03-okta-system-log-signin-failure.png))
 
 **5. Wrong section, wrong direction.** The first attempt to set the username format landed in the To App section, which controls Okta writing users into AD. Cancelled without saving. Okta has a separate Edit button per section, and the URL fragment (`#tab-general/import-n-mastering`) is the quickest way to know you're on the right one.
 
-**6. A duplicate employee ID in the HR file.** The first day 7 feed had employee `100013` on two lines. The JML engine rejected both rows and planned zero actions instead of guessing. `100013` turned out to be Grace Liu, a future hire with a January 2027 start date, so she exists in HR but not in AD (the pre-hire window from Part 1). I had picked a taken ID. In production, IDs come from the HRIS and are never invented by IT. ([26](docs/screenshots/26-jml-duplicate-employeeid-rejected.png))
+**6. A duplicate employee ID in the HR file.** The first day 7 feed had employee `100013` on two lines. The JML engine rejected both rows and planned zero actions instead of guessing. `100013` turned out to be Grace Liu, a future hire with a January 2027 start date, so she exists in HR but not in AD (the pre-hire window from Part 1). I had picked a taken ID. In production, IDs come from the HRIS and are never invented by IT. ([26](screenshots/26-jml-duplicate-employeeid-rejected.png))
 
 **7. My prediction about the leaver was half wrong.** I predicted the incremental import would leave Rachel Active. It did, but she flipped to Deactivated a minute later and I nearly credited the import. The System Log showed Real-Time Sync. Lesson: read the event type before writing the finding.
 
-**8. `invalid_client` on the first token request.** I transcribed the client ID from a screenshot. It contains `Ozl`; I typed `OzI`. Capital I and lowercase l look the same in Okta's font. Both failed attempts are in the audit trail, which is the point of auditing failures. IDs get copied, never retyped. ([47a](docs/screenshots/47a-okta-token-invalid-client.png))
+**8. `invalid_client` on the first token request.** I transcribed the client ID from a screenshot. It contains `Ozl`; I typed `OzI`. Capital I and lowercase l look the same in Okta's font. Both failed attempts are in the audit trail, which is the point of auditing failures. IDs get copied, never retyped. ([47a](screenshots/47a-okta-token-invalid-client.png))
 
 **9. "Agent down" but Elena got in, twice.** The first time, Safari still held her Okta session, so no password was checked at all (the log event was a token grant, not an authentication). The second time was a real password sign-in, answered from Okta's five-day credential cache. Neither was the result I expected, and the second turned into Finding 2.
 
@@ -472,7 +472,7 @@ The installer encrypts the agent's config with DPAPI under the install account, 
 scripts/
   New-OktaJmlKeyPair.ps1        generates the service app key pair on the server; prints the public JWK
   Revoke-OktaLeaverAccess.ps1   leaver containment: clear sessions and tokens, deactivate, audit
-docs/screenshots/               evidence from the live lab
+screenshots/               evidence from the live lab
 ```
 
 The AD agent, OU scope, import settings, delegated authentication, JIT, the service app, the custom role, the resource set and the group rule were configured in the Okta Admin Console, and every setting is documented above with the reason for it.
