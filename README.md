@@ -11,7 +11,10 @@
 [![Azure](https://img.shields.io/badge/Azure-Lab-0089D6?style=for-the-badge&logo=microsoftazure&logoColor=white)](#lab)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-*Part 3 of the Meridian Financial Group lab. Part 1: [meridian-jml-engine](https://github.com/ZayLinux26/meridian-jml-engine). Part 2: [meridian-keycloak-ad-rbac](https://github.com/ZayLinux26/meridian-keycloak-ad-rbac)*
+*Part 3 of the Meridian Financial Group lab. Part 1: [meridian-jml-engine](https://github.com/ZayLinux26/meridian-jml-engine). Part 2: [meridian-keycloak-ad-rbac](https://github.com/ZayLinux26/meridian-keycloak-ad-rbac). Part 4: [meridian-okta-entra-identity-fabric](https://github.com/ZayLinux26/meridian-okta-entra-identity-fabric)*
+
+> [!TIP]
+> **This project continues in Part 4.** The last roadmap item here, Okta as the SAML identity provider into Entra with PIM for just-in-time admin access, became the capstone: [**meridian-okta-entra-identity-fabric**](https://github.com/ZayLinux26/meridian-okta-entra-identity-fabric). It federates Okta into Entra over SAML 2.0, provisions users from Okta into Entra, and proves the leaver cutoff end to end: one AD disable, and Entra follows about 10 seconds after Okta.
 
 ---
 
@@ -503,8 +506,56 @@ Exit codes follow the JML engine: `0` contained, `3` containment failed (page so
 - Second Okta AD agent on a separate server
 - Scheduled incremental imports plus a periodic full import, with Import Monitoring counts alerted
 - Workforce MFA in Okta, then rerun the agent-outage test
-- Okta as SAML IdP into Entra, with Entra PIM for just-in-time admin access
+- ~~Okta as SAML IdP into Entra, with Entra PIM for just-in-time admin access~~ **Done in Part 4:** [meridian-okta-entra-identity-fabric](https://github.com/ZayLinux26/meridian-okta-entra-identity-fabric)
 
-## License
+---
 
-MIT. See [LICENSE](LICENSE).
+<div align="center">
+
+## By the numbers
+
+[![IdPs reading one AD](https://img.shields.io/badge/IdPs_reading_one_AD-3-007DC1?style=for-the-badge&logo=okta&logoColor=white)](#three-identity-providers-one-directory)
+[![Leaver containment](https://img.shields.io/badge/Leaver_containment-1.3_seconds-2EA043?style=for-the-badge&logo=powershell&logoColor=white)](#the-fix-and-the-retest)
+[![Credential cache](https://img.shields.io/badge/Credential_cache_found-5_days-D29922?style=for-the-badge&logo=okta&logoColor=white)](#finding-2-the-agent-outage-and-the-credential-cache)
+[![Custom role](https://img.shields.io/badge/Automation_permissions-3-8957E5?style=for-the-badge&logo=openid&logoColor=white)](#phase-5-the-fix-the-leaver-tells-okta-directly)
+[![What broke](https://img.shields.io/badge/Things_that_broke-10-CF222E?style=for-the-badge&logo=githubactions&logoColor=white)](#what-broke)
+
+## The Meridian identity lab series
+
+[![Part 1](https://img.shields.io/badge/Part_1-JML_Engine-30363D?style=for-the-badge&logo=powershell&logoColor=white)](https://github.com/ZayLinux26/meridian-jml-engine)
+&nbsp;&#8594;&nbsp;
+[![Part 2](https://img.shields.io/badge/Part_2-Keycloak_AD_RBAC-30363D?style=for-the-badge&logo=keycloak&logoColor=white)](https://github.com/ZayLinux26/meridian-keycloak-ad-rbac)
+&nbsp;&#8594;&nbsp;
+[![Part 3, you are here](https://img.shields.io/badge/Part_3-You_are_here-007DC1?style=for-the-badge&logo=okta&logoColor=white)](#meridian-okta-ad-lifecycle)
+&nbsp;&#8594;&nbsp;
+[![Part 4](https://img.shields.io/badge/Part_4-Okta_%2B_Entra_Capstone-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)](https://github.com/ZayLinux26/meridian-okta-entra-identity-fabric)
+
+<sub>Part 1 built the HR-driven joiner, mover, leaver engine. Part 2 put Keycloak on the same AD. This part added Okta and found where terminations stop. Part 4 federates Okta into Entra and adds just-in-time admin access with PIM.</sub>
+
+<br/><br/>
+
+### Next up
+
+[![Continue to Part 4](https://img.shields.io/badge/Continue_to_Part_4-Okta_federated_into_Entra_with_PIM-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)](https://github.com/ZayLinux26/meridian-okta-entra-identity-fabric)
+
+<br/>
+
+## Let's talk identity
+
+I'm Isaiah "Zay" Herard. I work in identity and privileged access in Chicago, and I build these labs to find the problems that only show up when real systems meet. If you've run into the same leaver gaps in your own Okta or Entra rollout, I'd like to hear how you handled them.
+
+[![Connect on LinkedIn](https://img.shields.io/badge/Connect_on-LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/isaiah-herard)
+[![Follow on GitHub](https://img.shields.io/badge/Follow_on-GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ZayLinux26)
+[![Full portfolio](https://img.shields.io/badge/Full-IAM_Portfolio-6E40C9?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ZayLinux26/iam-analyst-portfolio)
+
+[![Stars](https://img.shields.io/github/stars/ZayLinux26/meridian-okta-ad-lifecycle?style=for-the-badge&logo=github&label=Stars&color=F5C518)](https://github.com/ZayLinux26/meridian-okta-ad-lifecycle/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/ZayLinux26/meridian-okta-ad-lifecycle?style=for-the-badge&logo=git&logoColor=white&label=Last_updated)](https://github.com/ZayLinux26/meridian-okta-ad-lifecycle/commits/main)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+<sub>Meridian Financial Group is a fictional organization. All users, HR records, and data in this lab are synthetic.</sub>
+
+<br/><br/>
+
+[![Back to top](https://img.shields.io/badge/Back_to_top-555555?style=for-the-badge&logo=github&logoColor=white)](#meridian-okta-ad-lifecycle)
+
+</div>
